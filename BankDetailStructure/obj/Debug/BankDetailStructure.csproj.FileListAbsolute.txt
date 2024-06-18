@@ -1,0 +1,16 @@
+C:\Users\Vi\source\repos\BankWebApp\BankDetailStructure\bin\Debug\BankDetailStructure.dll
+C:\Users\Vi\source\repos\BankWebApp\BankDetailStructure\bin\Debug\BankDetailStructure.pdb
+C:\Users\Vi\source\repos\BankWebApp\BankDetailStructure\obj\Debug\BankDetailStructure.csprojAssemblyReference.cache
+C:\Users\Vi\source\repos\BankWebApp\BankDetailStructure\obj\Debug\BankDetailStructure.csproj.CoreCompileInputs.cache
+C:\Users\Vi\source\repos\BankWebApp\BankDetailStructure\obj\Debug\BankDetailStructure.dll
+C:\Users\Vi\source\repos\BankWebApp\BankDetailStructure\obj\Debug\BankDetailStructure.pdb
+C:\Users\Vi\source\repos\BankWebApp\BankDetailStructure\bin\Debug\BankDB.dll
+C:\Users\Vi\source\repos\BankWebApp\BankDetailStructure\obj\Debug\BankDetailStructure.csproj.CopyComplete
+C:\Users\Vi\source\repos\Three-Tier-Bank-Application-2\BankDetailStructure\bin\Debug\BankDetailStructure.dll
+C:\Users\Vi\source\repos\Three-Tier-Bank-Application-2\BankDetailStructure\bin\Debug\BankDetailStructure.pdb
+C:\Users\Vi\source\repos\Three-Tier-Bank-Application-2\BankDetailStructure\bin\Debug\BankDB.dll
+C:\Users\Vi\source\repos\Three-Tier-Bank-Application-2\BankDetailStructure\obj\Debug\BankDetailStructure.csproj.AssemblyReference.cache
+C:\Users\Vi\source\repos\Three-Tier-Bank-Application-2\BankDetailStructure\obj\Debug\BankDetailStructure.csproj.CoreCompileInputs.cache
+C:\Users\Vi\source\repos\Three-Tier-Bank-Application-2\BankDetailStructure\obj\Debug\BankDetailStructure.csproj.CopyComplete
+C:\Users\Vi\source\repos\Three-Tier-Bank-Application-2\BankDetailStructure\obj\Debug\BankDetailStructure.dll
+C:\Users\Vi\source\repos\Three-Tier-Bank-Application-2\BankDetailStructure\obj\Debug\BankDetailStructure.pdb

@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<html>
+<head>
+    <title>Three Tier Bank App2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    @*
+        This div contains the Home page title element and instruction or guide of how to use this web app.
+        It has a background color of floralwhite with the text at the centre
+    *@
+    <div style="background-color:floralwhite;text-align:center">
+        <h1><strong>Home</strong></h1>
+        <p class="lead">Three Tier Bank App2 - Home Page</p>
+        <p>
+            One of the example of how to use this app: click 'user' page -> create a user (create 2 user [to test the transaction process])
+            -> click 'account' page -> deposit money to an account
+            -> click 'transaction' page -> create a transaction
+        </p>
+        <p>
+            - Also, you may need to have folder 'C:\WebStuff\' to store BankDB user datas -
+        </p>
+        <p>This is not all it can do, it also has other functions. So go ahead and try them!</p>
+    </div>
+
+    @*
+        This fieldset contains a legend and 3 div coloumn in 1 div row.
+        The 3 div coloumn contains a heading, description and a button to open up the selected button in diffrent page.
+        The 3 div coloumn are Users, Accounts and Transactions.
+        The way to use it are by clicking one of the buttons and it will lead to a specific page, either Users, Accounts or Transactions page.
+    *@
+    <fieldset>
+        @* The legend displays the title and has a font size of 27px *@
+        <legend style="font-size:27px">A multi-page web app</legend>
+
+        <div class="row">
+            @*
+                The div is a coloumn and has a background color of thistle.
+                It is for the Users and it contains a user button that if clicked will lead to the Users page.
+            *@
+            <div style="background-color:thistle;" class="col-md-4">
+                <h3>Users</h3>
+                <p>Click the button below to go to the User page</p>
+                <p><a class="btn btn-default" style="background-color: plum;border-color:white;" href="https://localhost:44357/Home/Users">Open User Page &raquo;</a></p>
+            </div>
+            @*
+                The div is a coloumn and has a background color of darkkhaki.
+                It is for the Accounts and it contains a Accounts button that if clicked will lead to the Accounts page.
+            *@
+            <div style="background-color:darkkhaki;" class="col-md-4">
+                <h3>Accounts</h3>
+                <p>Click the button below to go to the Account page</p>
+                <p><a class="btn btn-default" style="background-color:khaki;border-color:white;" href="https://localhost:44357/Home/Accounts">Open Account Page &raquo;</a></p>
+            </div>
+            @*
+                The div is a coloumn and has a background color of yellowgreen.
+                It is for the Transactions and it contains a Transactions button that if clicked will lead to the Transactions page.
+            *@
+            <div style="background-color:yellowgreen;" class="col-md-4">
+                <h3>Transactions</h3>
+                <p>Click the button below to go to the Transaction page</p>
+                <p><a class="btn btn-default" style="background-color:paleturquoise;border-color:white;" href="https://localhost:44357/Home/Transactions">Open Transaction Page &raquo;</a></p>
+            </div>
+        </div>
+    </fieldset>
+
+
+    @* creates lines or spaces *@
+    <br><br><br><br><br>
+    @*
+        This fieldset contains a legend and 3 div coloumn in 1 div row.
+        The 3 div coloumn contains a heading, description and a button to open up the selected button in the div id called Content in the current home page.
+        The 3 div coloumn are Users, Accounts and Transactions.
+        The way to use it are by clicking one of the buttons and it will open up the specific page, either Users, Accounts or Transactions page, in the home page Content div.
+    *@
+    <fieldset>
+        @* The legend displays the title and has a font size of 27px *@
+        <legend style="font-size:27px">A single-page web app</legend>
+
+        <div id="Btns" class="row">
+            @*
+                The div is a coloumn and has a background color of thistle.
+                It is for the Users and it contains a user button that if clicked will open up the Users page in the home page Content div.
+            *@
+            <div style="background-color: thistle;" class="col-md-4">
+                <h3>Users</h3>
+                <p>Click the button below to load the Users page content in the Home page</p>
+                <p><button class="btn btn-default" id="userBtn" style="background-color:plum;border-color:white;" onclick="user()">User &raquo;</button>
+            </div>
+            @*
+                The div is a coloumn and has a background color of darkkhaki.
+                It is for the Users and it contains a user button that if clicked will open up the Accounts page in the home page Content div.
+            *@
+            <div style="background-color: darkkhaki;" class="col-md-4">
+                <h3>Accounts</h3>
+                <p>Click the button below to load the Accounts page content in the Home page</p>
+                <p><button class="btn btn-default" id="accountBtn" style="background-color:khaki;border-color:white;" onclick="account()">Account &raquo;</button>
+            </div>
+            @*
+                The div is a coloumn and has a background yellowgreen of thistle.
+                It is for the Users and it contains a user button that if clicked will open up the Transactions page in the home page Content div.
+            *@
+            <div style="background-color: yellowgreen;" class="col-md-4">
+                <h3>Transactions</h3>
+                <p>Click the button below to load the Transactions page content in the Home page</p>
+                <p><button class="btn btn-default" id="transactionBtn" style="background-color:paleturquoise;border-color:white;" onclick="transaction()">Transactions &raquo;</button>
+            </div>
+        </div>
+    </fieldset>
+
+    @*
+        This div is used to open up a single-page web app of either Users, Accounts or Transcation page, in the home page Content div.
+        A div with id of Content which has a background color of azure.
+        It is the place to display the Users, Accounts or Transcation page, based on what the user click on for the single-page web app.
+    *@
+    <div id="Content" style="background-color:azure;">
+    </div>
+
+    @*
+        The script contains 3 functions which are user, account and transaction function.
+        These 3 fuctions open up a single-page web app of either Users, Accounts or Transcation page, in the home page Content div.
+        It all has a fade animation.
+    *@
+
+    <script>
+        @*
+            user function happens if the user button is clicked.
+            It will open up User web page in the home page div Content.
+        *@
+        function user() {
+            $.ajax({
+                url: 'https://localhost:44357/Home/Users',
+                type: 'get',
+                processData: false,
+                success: function (data, textStatus, jQxhr)
+                {
+                    //set the data, which is the Users page, to the Content div and use fade animation when it happens
+                    $('#Content').hide().fadeIn(1000, "swing").html(data);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    // log and display error for user
+                    console.log("Error - " + errorThrown);
+                    alert("Error function: You've NOT successfuly load the user.");
+                }
+            });
+        }
+
+        @*
+            account function happens if the user button is clicked.
+            It will open up account web page in the home page div Content.
+        *@
+        function account() {
+            $.ajax({
+                url: 'https://localhost:44357/Home/Accounts',
+                type: 'get',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    //set the data, which is the Accounts page, to the Content div and use fade animation when it happens
+                    $('#Content').hide().fadeIn(1000, "swing").html(data);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    // log and display error for user
+                    console.log("Error - " + errorThrown);
+                    alert("Error function: You've NOT successfuly load the account.");
+                }
+            });
+        }
+
+        @*
+            transaction function happens if the user button is clicked.
+            It will open up transaction web page in the home page div Content.
+        *@
+        function transaction() {
+            $.ajax({
+                url: 'https://localhost:44357/Home/Transactions',
+                type: 'get',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    //set the data, which is the Transactions page, to the Content div and use fade animation when it happens
+                    $('#Content').hide().fadeIn(1000, "swing").html(data);
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    // log and display error for user
+                    console.log("Error - " + errorThrown);
+                    alert("Error function: You've NOT successfuly load the transaction.");
+                }
+            });
+        }
+</script>
+
+</body>
+</html>
+

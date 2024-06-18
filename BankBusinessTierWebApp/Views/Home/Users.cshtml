@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "Users";
+}
+<html>
+<head>
+    @**
+        The style .myDiv has a background color of thistle and centre text-align.
+        .myDiv is used for the first div that contains a header of User.
+    *@
+    <style>
+        .myDiv {
+            background-color: thistle;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    @* This div is the User page title element. *@
+    <div class="myDiv">
+        <h1><strong>Users</strong></h1>
+        <p class="lead">Three Tier Bank App2 - User Page</p>
+    </div>
+
+    <br>
+    @*
+        This form contains a fieldset that contains a legend, an input text for first and last name, and a read-only text for user and account id.
+    *@
+    <form>
+        <fieldset>
+            <legend>Create a User:</legend>
+
+            <label for="fNameCreateAUser">First name: </label>
+            <input type="text" id="fNameCreateAUser" name="fNameCreateAUser" placeholder="First name" />
+            <label for="lNameCreateAUser">Last name: </label>
+            <input type="text" id="lNameCreateAUser" name="lNameCreateAUser" placeholder="Last name" />
+            <br>
+            <label for="idUserCreateAUser">User ID: </label>
+            <input type="text" id="idUserCreateAUser" name="idUserCreateAUser" placeholder="User ID" readonly />
+            <label for="idAcctCreateAUser">Account ID: </label>
+            <input type="text" id="idAcctCreateAUser" name="idAcctCreateAUser" placeholder="Account ID" readonly />
+        </fieldset>
+    </form>
+    <br>
+    @*
+        The way to use for createAUserBtn button is by inputting user first and last name.
+        It will then return the user id and account id if sucessful, otherwise it will alert the error to the user.
+    *@
+    <button id="createAUserBtn" onclick="createAUser()">Create a user</button>
+    @* This Script contains createAUser function *@
+    <script>
+        //createAUser functions retrieve the user id and account id if successful.
+        //If error happens, it will alert the user.
+        function createAUser() {
+            $.ajax({
+                url: '/Home/Users/api/Api/CreateAUser/' + $('#fNameCreateAUser').val() + '/' + $('#lNameCreateAUser').val(),
+                type: 'post',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    var obj = data;
+                    //if the obj, which is the AccountModel that contains userId, acctId and bal, is not null, show the ids
+                    if (obj != null) {
+                        //display the ids
+                        $("#idAcctCreateAUser").val(obj.id);
+                        $("#idUserCreateAUser").val(obj.idOfUser);
+                    }
+                    //if the obj, which is the AccountModel that contains userId, acctId and bal, is null, set ids to null and alert and log the error
+                    else {
+                        //set ids to null
+                        $("#idUserCreateAUser").val(null);
+                        $("#idAcctCreateAUser").val(null);
+                        //log error to console with error message
+                        console.log("Error: You've NOT successfuly created a user. Please check the data you've inputted.");
+                        //alert user with error message
+                        alert("Error: You've NOT successfuly created a user. Please check the data you've inputted.");
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    //set ids to null
+                    $("#idUserCreateAUser").val(null);
+                    $("#idAcctCreateAUser").val(null);
+                    // log and display error for user
+                    console.log(errorThrown);
+                    alert("Error function: You've NOT successfuly created a user. Please check the data you've inputted.");
+                }
+            })
+        }
+    </script>
+
+    <br><br><br><br><br><br>
+    @*
+        This form contains a fieldset that contains a legend, an input text user id, last name and first name.
+    *@
+    <form>
+        <fieldset>
+            <legend>Change User Name by ID:</legend>
+
+            <label for="userIdChangeUserName">ID: </label>
+            <input type="text" id="userIdChangeUserName" name="userIdChangeUserName" placeholder="User ID" />
+            <label for="fNameChangeUserName">First name: </label>
+            <input type="text" id="fNameChangeUserName" name="fNameChangeUserName" placeholder="First name" />
+            <label for="lNameChangeUserName">Last name: </label>
+            <input type="text" id="lNameChangeUserName" name="lNameChangeUserName" placeholder="Last name" />
+        </fieldset>
+    </form>
+    <br>
+    @*
+        The way to use for changeUserNameByIdBtn button is by inputting a user id, last name and first name.
+        It will then return an alert stating that it is succesful, otherwise it will alert the error to the user.
+    *@
+    <button id="changeUserNameByIdBtn" onclick="changeUserNameByIdBtn()">Change User Name</button>
+    @* This Script contains changeUserNameByIdBtn function *@
+    <script>
+        //changeUserNameByIdBtn functions change the user first and last name if successful.
+        //If error happens, it will alert the user.
+        function changeUserNameByIdBtn() {
+            $.ajax({
+                url: '/Home/Users/api/Api/ChangeUserNameById/' + $("#userIdChangeUserName").val() + '/' + $('#fNameChangeUserName').val() + '/' + $('#lNameChangeUserName').val(),
+                type: 'post',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    //if data returned is not null, show the first and last name
+                    if (data != null) {
+                        //log info to console with success message
+                        console.log("You've successfuly change your first and last name to " + $("#fNameChangeUserName").val() + " " + $("#lNameChangeUserName").val() + " on id " + $("#userIdChangeUserName").val() + ".");
+                        //alert user with success message
+                        alert("You've successfuly change your first and last name to " + $("#fNameChangeUserName").val() + " " + $("#lNameChangeUserName").val() + " on id " + $("#userIdChangeUserName").val() + ".");
+                    }
+                    //if data returned is null, log and alert user with the error message
+                    else {
+                        //log error to console with error message
+                        console.log("Error: You've NOT successfuly change the user name by the inputted id. No data found - Please check the data you've inputted.");
+                        //alert user with error message
+                        alert("Error: You've NOT successfuly change the user name by the inputted id. No data found - Please check the data you've inputted.");
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    // log and display error for user
+                    console.log(errorThrown);
+                    alert("Error function: You've NOT successfuly change the user name by the inputted id. Please check the data you've inputted.");
+                }
+            })
+        }
+    </script>
+
+    <br><br><br><br><br><br>
+    @*
+        This form contains a fieldset that contains a legend, an input text user id and a read-only text for first and last name.
+    *@
+    <form>
+        <fieldset>
+            <legend>Get User Name by ID:</legend>
+
+            <label for="userIdGetUserName">ID: </label>
+            <input type="text" id="userIdGetUserName" name="userIdGetUserName" placeholder="User ID" />
+            <br>
+            <label for="fNameResGetUserName">First name: </label>
+            <input type="text" id="fNameResGetUserName" name="fNameResGetUserName" placeholder="First name" readonly />
+            <label for="lNameResGetUserName">Last name: </label>
+            <input type="text" id="lNameResGetUserName" name="lNameResGetUserName" placeholder="Last name" readonly />
+        </fieldset>
+    </form>
+    <br>
+    @*
+        The way to use for getUserNameByIdBtn button is by inputting a user id.
+        It will then return the first and last name if sucessful, otherwise it will alert the error to the user.
+    *@
+    <button id="getUserNameByIdBtn" onclick="getUserNameById()">Get User Name</button>
+    @* This Script contains getUserNameById function *@
+    <script>
+        //getUserNameById functions retrieve user first and last name if successful.
+        //If error happens, it will alert the user.
+        function getUserNameById() {
+            $.ajax({
+                url: '/Home/Users/api/Api/GetAUserNameById/' + $("#userIdGetUserName").val(),
+                type: 'get',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    //if data returned is not null, show the first and last name
+                    if (data != null) {
+                        var obj = data;
+                        //display the first and last name
+                        $("#fNameResGetUserName").val(obj.fName);
+                        $("#lNameResGetUserName").val(obj.lName);
+                    }
+                    //if data returned is null, log and alert user with the error message
+                    else {
+                        //set name to null
+                        $("#fNameResGetUserName").val(null);
+                        $("#lNameResGetUserName").val(null);
+                        //log error to console with error message
+                        console.log("Error: You've NOT successfuly get the user name by the inputted id. No data found - Please check the data you've inputted.");
+                        //alert user with error message
+                        alert("Error: You've NOT successfuly get the user name by the inputted id. No data found - Please check the data you've inputted.");
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    //set name to null
+                    $("#fNameResGetUserName").val(null);
+                    $("#lNameResGetUserName").val(null);
+                    // log and display error for user
+                    console.log(errorThrown);
+                    alert("Error function: You've NOT successfuly get the user name by the inputted id. Please check the data you've inputted.");
+                }
+            })
+        }
+    </script>
+
+</body>
+</html>

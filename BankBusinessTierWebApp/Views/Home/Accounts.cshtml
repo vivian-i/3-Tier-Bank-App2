@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "Accounts";
+}
+
+<html>
+<head>
+    @**
+        The style .myDiv has a background color of darkkhaki and centre text-align.
+        .myDiv is used for the first div that contains a header of Accounts.
+    *@
+    <style>
+        .myDiv {
+            background-color: darkkhaki;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    @* This div is the Accounts page title element. *@
+    <div class="myDiv">
+        <h1><strong>Accounts</strong></h1>
+        <p class="lead">Three Tier Bank App2 - Account Page</p>
+    </div>
+
+    <br>
+    @*
+        This form contains a fieldset that contains a legend, an input text for account id, a read-only text for owner user id and the balance.
+    *@
+    <form>
+        <fieldset>
+            <legend>Get Account Details By ID:</legend>
+
+            <label for="idGetAccountDetails">ID: </label>
+            <input type="text" id="idGetAccountDetails" name="idGetAccountDetails" placeholder="Account ID" />
+            <br>
+            <label for="ownerGetAccountDetails">Owner User ID: </label>
+            <input type="text" id="ownerGetAccountDetails" name="ownerGetAccountDetails" placeholder="Owner User ID" readonly />
+            <label for="balGetAccountDetails">Balance: </label>
+            <input type="text" id="balGetAccountDetails" name="balGetAccountDetails" placeholder="Balance" readonly />
+        </fieldset>
+    </form>
+    <br>
+    @*
+        The way to use for getAccountDetailsBtn button is by inputting an account id.
+        It will then return the owner user id and balance if sucessful, otherwise it will alert the error to the user.
+    *@
+    <button id="getAccountDetailsBtn" onclick="getAccountDetails()">Get Account Details</button>
+
+    @* This Script contains getAccountDetails function *@
+    <script>
+        //getAccountDetails functions retrieve the owner user id and balance if the inputted account id is found.
+        //If error happens, it will alert the user.
+        function getAccountDetails() {
+            $.ajax({
+                url: "/Home/Accounts/api/Api/GetAccountDetailsById/" + $("#idGetAccountDetails").val(),
+                type: 'get',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    //if obj is not null, display the account details
+                    if (data != null)
+                    {
+                        var obj = data;
+                        //show the account details
+                        $("#ownerGetAccountDetails").val(obj.idOfUser);
+                        $("#balGetAccountDetails").val(obj.accBal);
+                    }
+                    //if obj is null, set account details to null, and log and alert error to user
+                    else {
+                        //set account details to null
+                        $("#ownerGetAccountDetails").val(null);
+                        $("#balGetAccountDetails").val(null);
+
+                        //log error to console with error message
+                        console.log("Error: You've NOT successfuly get the account details by the inputted id. No data found - Please check the data you've inputted.");
+                        //alert user with error message
+                        alert("Error: You've NOT successfuly get the account details by the inputted id. No data found - Please check the data you've inputted.");
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    //set account details to null
+                    $("#ownerGetAccountDetails").val(null);
+                    $("#balGetAccountDetails").val(null);
+
+                    // log and alert error for user
+                    console.log(errorThrown);
+                    alert("Error function: You've NOT successfuly get the account details by the inputted id. Please check the data you've inputted.");
+                }
+            })
+        }
+    </script>
+
+    <br><br><br><br><br><br>
+    @*
+        This form contains a fieldset that contains a legend, an input text for account id and the amount.
+    *@
+    <form>
+        <fieldset>
+            <legend>Deposit:</legend>
+
+            <label for="idDeposit">ID: </label>
+            <input type="text" id="idDeposit" name="idDeposit" placeholder="Account ID" />
+            <label for="amountDeposit">Amount: </label>
+            <input type="text" id="amountDeposit" name="amountDeposit" placeholder="Amount" />
+        </fieldset>
+    </form>
+    <br>
+    @*
+        The way to use for depositBtn button is by inputting an account id and an amount to deposit.
+        The money will be deposited to an account id when button is clicked.
+    *@
+    <button id="depositBtn" onclick="deposit()">Deposit</button>
+
+    @* This Script contains deposit function *@
+    <script>
+        //deposit functions deposits an amount of money to the inputted accound id if succesful.
+        //If error happens, it will alert the user.
+        function deposit() {
+            $.ajax({
+                url: "/Home/Accounts/api/Api/Deposit/" + $("#idDeposit").val() + "/" + $("#amountDeposit").val(),
+                type: 'post',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    var obj = data
+                    //if obj is true, log and alert success message to user
+                    if (obj == true) {
+                        //log info to console with success message
+                        console.log("You've successfuly deposit a total amount of " + $("#amountDeposit").val() + " to account ID " + $("#idDeposit").val() + ".");
+                        //alert user with success message
+                        alert("You've successfuly deposit a total amount of " + $("#amountDeposit").val() + " to account ID " + $("#idDeposit").val() + ".");
+                    }
+                    //if obj is false, log and alert error to user
+                    else {
+                        //log error to console with error message
+                        console.log("Error: You've NOT successfuly deposit an amount for the inputted account id. Please check the data you've inputted.");
+                        //alert user with error message
+                        alert("Error: You've NOT successfuly deposit an amount for the inputted account id. Please check the data you've inputted.");
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    //log and display error for user
+                    console.log(errorThrown);
+                    alert("Error function: You've NOT successfuly deposit an amount for the inputted account id. Please check the data you've inputted.");
+                }
+            })
+        }
+    </script>
+
+    <br><br><br><br><br><br>
+    @*
+        This form contains a fieldset that contains a legend, an input text for account id and the amount.
+    *@
+    <form>
+        <fieldset>
+            <legend>Withdraw:</legend>
+
+            <label for="idWithdraw">ID: </label>
+            <input type="text" id="idWithdraw" name="idWithdraw" placeholder="Account ID" />
+            <label for="amountWithdraw">Amount: </label>
+            <input type="text" id="amountWithdraw" name="amountWithdraw" placeholder="Amount" />
+        </fieldset>
+    </form>
+    <br>
+    @*
+        The way to use for withdrawBtn button is by inputting an account id and an amount to withdraw.
+        The money will be withdrawn to an account id when button is clicked.
+    *@
+    <button id="withdrawBtn" onclick="withdraw()">Withdraw</button>
+
+    @* This Script contains withdraw function *@
+    <script>
+        //withdraw functions withdraw an amount of money to the inputted accound id if succesful.
+        //If error happens, it will alert the user.
+        function withdraw() {
+            $.ajax({
+                url: "/Home/Accounts/api/Api/Withdraw/" + $("#idWithdraw").val() + "/" + $("#amountWithdraw").val(),
+                type: 'post',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    var obj = data
+                    //if obj is true, log and alert success message to user
+                    if (obj == true) {
+                        //log info to console with success message
+                        console.log("You've successfuly withdraw a total amount of " + $("#amountWithdraw").val() + " to account ID " + $("#idWithdraw").val() + ".");
+                        //alert user with success message
+                        alert("You've successfuly withdraw a total amount of " + $("#amountWithdraw").val() + " to account ID " + $("#idWithdraw").val() + ".");
+                    }
+                    //if obj is false, log and alert error to user
+                    else {
+                        //log error to console with error message
+                        console.log("Error: You've NOT successfuly withdraw an amount for the inputted account id. Please check the data you've inputted.");
+                        //alert user with error message
+                        alert("Error: You've NOT successfuly deposit an withdraw for the inputted account id. Please check the data you've inputted.");
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    //log and display error for user
+                    console.log(errorThrown);
+                    alert("Error function: You've NOT successfuly withdraw an amount for the inputted account id. Please check the data you've inputted.");
+                }
+            })
+        }
+    </script>
+
+</body>
+</html>

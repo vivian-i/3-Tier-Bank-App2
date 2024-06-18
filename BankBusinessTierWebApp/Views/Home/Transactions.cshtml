@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Transactions";
+}
+
+<html>
+<head>
+    @**
+        The style .myDiv has a background color of yellowgreen and centre text-align.
+        .myDiv is used for the first div that contains a header of Transaction.
+    *@
+    <style>
+        .myDiv {
+            background-color: yellowgreen;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    @* This div is the Transactions page title element. *@
+    <div class="myDiv">
+        <h1><strong>Transactions</strong></h1>
+        <p class="lead">Three Tier Bank App2 - Transaction Page</p>
+    </div>
+
+    <br>
+    @*
+        This form contains a fieldset that contains a legend, an input text for sender id, receiver id and amount and a read-only text for transaction id.
+    *@
+    <form>
+        <fieldset>
+            <legend>Create a Transaction:</legend>
+
+            <label for="idOfSenderCreateATransaction">ID (Sender): </label>
+            <input type="text" id="idOfSenderCreateATransaction" name="idOfSenderCreateATransaction" placeholder="ID (Sender)" />
+            <label for="idOfReceiverCreateATransaction">ID (Receiver): </label>
+            <input type="text" id="idOfReceiverCreateATransaction" name="idOfReceiverCreateATransaction" placeholder="ID (Receiver)" />
+            <label for="amountCreateATransaction">Amount: </label>
+            <input type="text" id="amountCreateATransaction" name="amountCreateATransaction" placeholder="Amount" />
+            <br>
+            <label for="idCreateATransaction">ID: </label>
+            <input type="text" id="idCreateATransaction" name="idCreateATransaction" placeholder="Transaction ID" readonly />
+        </fieldset>
+    </form>
+    <br>
+    @*
+        The way to use for createATransactionBtn button is by inputting an sender id, receiver id and an amount.
+        It will then return the transaction id if sucessful, otherwise it will alert the error to the user.
+    *@
+    <button id="createATransactionBtn" onclick="createATransaction()">Create a transaction</button>
+
+    @* This Script contains createATransaction function *@
+    <script>
+        //createATransaction functions retrieve the transaction id if successful.
+        //If error happens, it will alert the user.
+        function createATransaction() {
+            $.ajax({
+                url: "/Home/Transactions/api/Api/CreateATransaction/" + $("#idOfSenderCreateATransaction").val() + "/" + $("#idOfReceiverCreateATransaction").val() + "/" + $("#amountCreateATransaction").val(),
+                type: 'post',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    var obj = data;
+                    //if obj is not 0, then display the transcation id
+                    if (obj != 0)
+                    {
+                        //display transaction id
+                        $("#idCreateATransaction").val(obj);
+                    }
+                    //if obj is 0, set id to null and log and alert error to user
+                    else {
+                        //set id to null
+                        $("#idCreateATransaction").val(null);
+                        //log error to console with error message
+                        console.log("Error: You've NOT successfuly created a transaction. Please check the data you've inputted.");
+                        //alert user with error message
+                        alert("Error: You've NOT successfuly created a transaction. Please check the data you've inputted.");
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    //set id to null
+                    $("#idCreateATransaction").val(null);
+                    console.log(errorThrown);
+                    alert("Error function: You've NOT successfuly created a transaction. Please check the data you've inputted.");
+                }
+            })
+        }
+    </script>
+
+    <br><br><br><br><br><br>
+    @*
+        This form contains a fieldset that contains a legend, an read-onlu text for sender id, receiver id and amount and an input text for transaction id.
+    *@
+    <form>
+        <fieldset>
+            <legend>Get Transaction Details by ID:</legend>
+
+            <label for="idGetTransactionDetails">ID: </label>
+            <input type="text" id="idGetTransactionDetails" name="idGetTransactionDetails" placeholder="Transaction ID" />
+            <br>
+            <label for="idSenderResGetTransactionDetails">ID (Sender): </label>
+            <input type="text" id="idSenderResGetTransactionDetails" name="idSenderResGetTransactionDetails" placeholder="ID (Sender)" readonly />
+            <label for="idReceiverResGetTransactionDetails">ID (Receiver): </label>
+            <input type="text" id="idReceiverResGetTransactionDetails" name="idReceiverResGetTransactionDetails" placeholder="ID (Receiver)" readonly />
+            <label for="amountResGetTransactionDetails">Amount: </label>
+            <input type="text" id="amountResGetTransactionDetails" name="amountResGetTransactionDetails" placeholder="Amount" readonly />
+        </fieldset>
+    </form>
+    <br>
+    @*
+        The way to use for getTransactionDetailsByIdBtn button is by inputting a transaction id.
+        It will then return the sender id, receiver id and an amount if sucessful, otherwise it will alert the error to the user.
+    *@
+    <button id="getTransactionDetailsByIdBtn" onclick="getTransactionDetailsById()">Get Transaction Details</button>
+
+    @* This Script contains getTransactionDetailsById function *@
+    <script>
+        //createATransaction functions retrieve the sender id, receiver id and an amount if successful.
+        //If error happens, it will alert the user.
+        function getTransactionDetailsById() {
+            $.ajax({
+                url: "/Home/Transactions/api/Api/GetTransactionDetailsById/" + $("#idGetTransactionDetails").val(),
+                type: 'get',
+                contentType: 'application/json',
+                processData: false,
+                success: function (data, textStatus, jQxhr) {
+                    //if obj is not null, display the transaction details
+                    if (data != null) {
+                        var obj = data;
+                        //show the transaction details
+                        $("#idSenderResGetTransactionDetails").val(obj.idOfSender);
+                        $("#idReceiverResGetTransactionDetails").val(obj.idOfReceiver);
+                        $("#amountResGetTransactionDetails").val(obj.amount);
+                    }
+                    //if obj is null, set transaction details to null and log and alert error to user
+                    else {
+                        //set transaction details to null
+                        $("#idSenderResGetTransactionDetails").val(null);
+                        $("#idReceiverResGetTransactionDetails").val(null);
+                        $("#amountResGetTransactionDetails").val(null);
+
+                        //log error to console with error message
+                        console.log("Error: You've NOT successfuly get the transaction details by the inputted id. No data found - Please check the data you've inputted.");
+                        //alert user with error message
+                        alert("Error: You've NOT successfuly get the transaction details by the inputted id. No data found - Please check the data you've inputted.");
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    //set transaction details to null
+                    $("#idSenderResGetTransactionDetails").val(null);
+                    $("#idReceiverResGetTransactionDetails").val(null);
+                    $("#amountResGetTransactionDetails").val(null);
+
+                    // log and display error for user
+                    console.log(errorThrown);
+                    alert("Error function: You've NOT successfuly get the transaction details by the inputted id. Please check the data you've inputted.");
+                }
+            })
+        }
+    </script>
+
+</body>
+</html>
